@@ -1,0 +1,12 @@
+*.class
+*.log
+.DS_Store
+
+# sbt specific
+.cache
+.history
+dist/*
+target/
+
+#intellij-specific
+.idea/**
