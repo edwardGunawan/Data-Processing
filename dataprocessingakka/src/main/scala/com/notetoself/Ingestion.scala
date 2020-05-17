@@ -36,9 +36,7 @@ class Ingestion extends Actor with ActorLogging with IngestionHandler {
         s"Status : ${key} has a total of ${result(key).length} amount}"
       }
 
-      val path = getClass.getResource("/out.txt").getPath
-//      println(path)
-      File(path).createIfNotExists().clear().appendLines(lines.mkString(","))
+      writeToOutputFile(lines)
       context.parent ! Supervisor.Stop
   }
 
@@ -52,6 +50,11 @@ trait IngestionHandler {
   }
 
   def openInputStream: InputStream = getClass.getResourceAsStream("/weblog.csv")
+
+  def writeToOutputFile(lines: Iterable[String]) = {
+    val path = getClass.getResource("/out.txt").getPath
+    File(path).createIfNotExists().clear().appendLines(lines.mkString(","))
+  }
 }
 
 object Ingestion {
