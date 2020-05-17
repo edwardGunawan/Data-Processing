@@ -1,0 +1,4 @@
+IP,Time,URL,Staus
+10.128.2.1,[29/Nov/2017:06:58:55,GET /login.php HTTP/1.1,200
+10.128.2.1,[29/Nov/2017:06:59:02,POST /process.php HTTP/1.1,302
+10.128.2.1,[29/Nov/2017:06:59:03,GET /home.php HTTP/1.1,200

@@ -1,12 +1,11 @@
 name := "DataProcessing"
 
 import com.notetoself.CompilerPlugins._
-import com.notetoself.Dependencies._
 
+import com.notetoself.Dependencies._
 import com.timushev.sbt.updates.UpdatesPlugin.autoImport.moduleFilterRemoveValue
 import sbt._
 import sbtassembly.AssemblyKeys
-
 import sbt.Keys.scalaVersion
 
 version := "0.1"
@@ -17,7 +16,7 @@ lazy val commonSettings = Seq(
   organization := "Note To Self",
   scalacOptions := {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2,12)) =>
+      case Some((2, 12)) =>
         Seq("-Ypartial-unification", "-deprecation")
       case _ =>
         Seq("-Xlint", "-Ywarn-unused", "-deprecation", "-Ymacro-annotations")
@@ -32,21 +31,26 @@ lazy val commonSettings = Seq(
   addCompilerPlugin(MacroParadise.core cross CrossVersion.full)
 )
 
-lazy val root = project.in(file("."))
+lazy val root = project
+  .in(file("."))
   .aggregate(dataProcessingAkka)
   .settings(
     commonSettings
   )
 
-lazy val dataProcessingAkka = project.in(file("dataprocessingakka"))
+lazy val dataProcessingAkka = project
+  .in(file("dataprocessingakka"))
   .settings(
     name := "Data Processing with Akka Actor",
     commonSettings,
     libraryDependencies ++= Seq(
-      Akka.actor.scala.value
-    )
+      Akka.actor.scala.value,
+      BetterFiles.core.scala.value
+    ) ++ Seq(
+      Akka.testKit.scala.value,
+      ScalaTest.core.scala.value
+    ).map(_ % "test")
   )
-
 
 lazy val assemblySettings = Seq(
   test in AssemblyKeys.assembly := {},
@@ -55,18 +59,18 @@ lazy val assemblySettings = Seq(
     case "application.conf" => MergeStrategy.concat
     case "reference.conf" => MergeStrategy.concat
     case "deriving.conf" => MergeStrategy.concat
-    case PathList("io", "netty", _@_*) => MergeStrategy.first
+    case PathList("io", "netty", _ @_*) => MergeStrategy.first
     case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
     case PathList(ps @ _*)
-      if Set(
-        "service-2.json",
-        "waiters-2.json",
-        "customization.config",
-        "paginators-1.json",
-        "module-info.class",
-        "mime.types"
-      ).contains(ps.last) =>
-    MergeStrategy.discard
+        if Set(
+          "service-2.json",
+          "waiters-2.json",
+          "customization.config",
+          "paginators-1.json",
+          "module-info.class",
+          "mime.types"
+        ).contains(ps.last) =>
+      MergeStrategy.discard
     case x => MergeStrategy.defaultMergeStrategy(x)
   }
 )

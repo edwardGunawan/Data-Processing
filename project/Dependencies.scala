@@ -2,12 +2,13 @@ package com.notetoself
 
 import sbt._
 
-case class Module(groupID:String, artifactID:String, version:String) {
-  def java :Def.Initialize[ModuleID] = Def.setting(groupID % artifactID % version)
-  def scala:Def.Initialize[ModuleID] = Def.setting(groupID %% artifactID % version)
+case class Module(groupID: String, artifactID: String, version: String) {
+  def java: Def.Initialize[ModuleID] = Def.setting(groupID % artifactID % version)
+  def scala: Def.Initialize[ModuleID] = Def.setting(groupID %% artifactID % version)
 }
 
 object Dependencies {
+
   object Scala {
     val v2 = "2.12.10"
     val v3 = "2.13.1"
@@ -26,7 +27,7 @@ object Dependencies {
     private val version = "2.6.5"
     private val groupID = "com.typesafe.akka"
     val stream = Module(groupID, "akka-stream", version)
-    val testKit = Module(groupID, "akka-stream-testkit", version)
+    val testKit = Module(groupID, "akka-testkit", version)
     val slf4j = Module(groupID, "akka-slf4j", version)
     val actor = Module(groupID, "akka-actor", version)
   }
@@ -35,7 +36,6 @@ object Dependencies {
     private val version = "3.8.0"
     val core = Module("com.github.pathikrit", "better-files", version)
   }
-
 
   object Cats {
     private val version = "2.1.1"
@@ -80,13 +80,12 @@ object Dependencies {
 
   object ScalaTest {
     private val version = "3.1.1"
-    val scalaTest = Module("org.scalatest", "scalatest", version)
+    val core = Module("org.scalatest", "scalatest", version)
   }
 
   object ScalaMock {
     private val version = "1.14.3"
     val scalaCheck = Module("org.scalacheck", "scalacheck", version)
   }
-
 
 }
