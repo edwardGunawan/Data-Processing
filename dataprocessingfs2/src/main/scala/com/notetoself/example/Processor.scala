@@ -22,9 +22,10 @@ trait Processor {
         .through(text.utf8Decode)
         .through(text.lines)
         .filter(isValidIp) // filter out valid IP
+        // NOTE: this doesn't create different substream. It just create different threads to execute the same stream
         .parEvalMapUnordered(parallelism)(convertToLog)
         .debug(a => s"parallel map ${a}")
-        //NOTE: does this do asynchronous fold?
+        //NOTE: this fold will wait until all stream is finished before proceeding to the next one
         .fold(Map.empty[String, Int]) { (map, currLog) =>
           val updatedStatus = map.getOrElse(currLog.status, 0) + 1
           map + (currLog.status -> updatedStatus)
