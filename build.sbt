@@ -52,6 +52,19 @@ lazy val dataProcessingAkka = project
     ).map(_ % "test")
   )
 
+lazy val dataProcessingFS2 = project
+  .in(file("dataprocessingfs2"))
+  .settings(
+    name := "Data Processing with FS2",
+    commonSettings,
+    libraryDependencies ++= Seq(
+      FS2.core.scala.value,
+      FS2.io.scala.value,
+      FS2.reactiveStream.scala.value,
+      Cats.effect.scala.value
+    )
+  )
+
 lazy val assemblySettings = Seq(
   test in AssemblyKeys.assembly := {},
   AssemblyKeys.assemblyJarName in AssemblyKeys.assembly := name.value + ".jar",

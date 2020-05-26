@@ -13,7 +13,7 @@ import File._
 /*
   1. Initializing the master node
   2. Get all the file to the master node
-  3. Collect the result and print the result
+  3. Collect the result and write to out.txt
  */
 class Ingestion extends Actor with ActorLogging with IngestionHandler {
   import Ingestion._

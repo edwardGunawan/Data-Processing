@@ -54,6 +54,13 @@ object Dependencies {
     val genericExtras = Module("io.circe", "circe-generic-extras", version)
   }
 
+  object FS2 {
+    private val version = "2.2.1"
+    val core = Module("co.fs2", "fs2-core", version)
+    val io = Module("co.fs2", "fs2-io", version)
+    val reactiveStream = Module("co.fs2", "fs2-reactive-streams", version)
+  }
+
   object Http4s {
     private val version = "0.20.0"
     private val groupID = "org.http4s"
